@@ -6,11 +6,18 @@ document.querySelectorAll('[data-catalog]').forEach((catalog) => {
   const cards = Array.from(list.children);
   const query = form.elements.q;
   const sort = form.elements.sort;
+  const material = form.elements.material;
+  const protection = form.elements.protection;
+  const price = form.elements.price;
   const normalize = (value) => value.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
   const update = () => {
     const terms = normalize(query.value.trim()).split(/\s+/).filter(Boolean);
     const visible = cards.filter((card) => {
-      const matches = terms.every((term) => normalize(card.dataset.search).includes(term));
+      const search = normalize(card.dataset.search);
+      const matches = terms.every((term) => search.includes(term)) &&
+        (!material.value || search.includes(material.value)) &&
+        (!protection.value || search.includes(protection.value)) &&
+        (!price.value || Number(card.dataset.price) <= Number(price.value));
       card.hidden = !matches;
       return matches;
     });
@@ -33,6 +40,7 @@ document.querySelectorAll('[data-catalog]').forEach((catalog) => {
   });
   query.addEventListener('input', update);
   sort.addEventListener('change', update);
+  [material, protection, price].forEach((field) => field.addEventListener('change', update));
   update();
 });
 
