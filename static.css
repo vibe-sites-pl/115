@@ -1,0 +1,15 @@
+
+.static-banner{background:#C9A46A;color:#111;font:500 13px/1.4 system-ui,sans-serif;text-align:center;padding:8px 16px}
+.static-banner a{text-decoration:underline}
+.static-order{display:flex;align-items:center;justify-content:center;height:2.5rem;width:100%;background:#111;color:#fff;
+  font-weight:600;border-radius:6px}
+.static-order:hover{background:#C9A46A;color:#111}
+[data-testid="nav-account-link"],[data-testid="nav-cart-link"],[data-testid="nav-search-button"],
+header nav > div:last-child > *{display:none!important}
+.static-menu{position:relative;height:100%;display:flex;align-items:center}
+.static-menu summary{cursor:pointer;list-style:none}
+.static-menu summary::-webkit-details-marker{display:none}
+.static-menu ul{position:absolute;top:100%;left:0;z-index:60;background:#fff;border:1px solid #e5e7eb;padding:12px 0;min-width:220px;
+  box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.static-menu li a{display:block;padding:8px 20px;font-weight:600;text-transform:uppercase}
+.static-menu li a:hover{background:#F6F3EE}
