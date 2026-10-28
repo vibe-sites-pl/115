@@ -127,3 +127,32 @@ document.querySelectorAll('.static-menu').forEach((menu) => {
     if (!menu.contains(event.target)) menu.open = false;
   });
 });
+
+document.querySelectorAll('.product-gallery').forEach((gallery) => {
+  const main = gallery.querySelector(':scope > img');
+  const photos = [main, ...gallery.querySelectorAll('.photo-grid img')];
+  if (!main || photos.length < 2) return;
+  const thumbs = document.createElement('div');
+  thumbs.className = 'gallery-thumbnails';
+  thumbs.setAttribute('role', 'group');
+  thumbs.setAttribute('aria-label', 'Product photos');
+  const originals = photos.map((photo) => ({src: photo.src, alt: photo.alt}));
+  originals.forEach((photo, index) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.setAttribute('aria-label', `Show product photo ${index + 1}`);
+    button.setAttribute('aria-pressed', String(index === 0));
+    const preview = document.createElement('img');
+    preview.src = photo.src;
+    preview.alt = '';
+    preview.loading = 'lazy';
+    button.append(preview);
+    button.addEventListener('click', () => {
+      main.src = photo.src;
+      main.alt = photo.alt;
+      thumbs.querySelectorAll('button').forEach((item, i) => item.setAttribute('aria-pressed', String(i === index)));
+    });
+    thumbs.append(button);
+  });
+  main.after(thumbs);
+});
