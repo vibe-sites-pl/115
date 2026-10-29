@@ -130,31 +130,46 @@ document.querySelectorAll('.static-menu').forEach((menu) => {
 
 document.querySelectorAll('.product-gallery').forEach((gallery) => {
   const main = gallery.querySelector(':scope > img');
+  if (!main) return;
   const photos = [main, ...gallery.querySelectorAll('.photo-grid img')];
-  if (!main || photos.length < 2) return;
+  if (photos.length < 2) return;
+  const originals = photos.map((photo) => ({src: photo.src, alt: photo.alt}));
+  const display = document.createElement('button');
+  display.type = 'button';
+  display.className = 'gallery-main';
+  display.setAttribute('aria-label', 'Show next product photo');
+  main.before(display);
+  display.append(main);
+  const counter = document.createElement('span');
+  counter.className = 'gallery-count';
+  display.append(counter);
   const thumbs = document.createElement('div');
   thumbs.className = 'gallery-thumbnails';
   thumbs.setAttribute('role', 'group');
   thumbs.setAttribute('aria-label', 'Product photos');
-  const originals = photos.map((photo) => ({src: photo.src, alt: photo.alt}));
+  let current = 0;
+  const show = (index) => {
+    current = index;
+    main.src = originals[index].src;
+    main.alt = originals[index].alt;
+    counter.textContent = `${index + 1} / ${originals.length}  →`;
+    thumbs.querySelectorAll('button').forEach((item, i) => item.setAttribute('aria-pressed', String(i === index)));
+  };
   originals.forEach((photo, index) => {
     const button = document.createElement('button');
     button.type = 'button';
     button.setAttribute('aria-label', `Show product photo ${index + 1}`);
-    button.setAttribute('aria-pressed', String(index === 0));
     const preview = document.createElement('img');
     preview.src = photo.src;
     preview.alt = '';
     preview.loading = 'lazy';
     button.append(preview);
-    button.addEventListener('click', () => {
-      main.src = photo.src;
-      main.alt = photo.alt;
-      thumbs.querySelectorAll('button').forEach((item, i) => item.setAttribute('aria-pressed', String(i === index)));
-    });
+    button.addEventListener('click', () => show(index));
     thumbs.append(button);
   });
-  main.after(thumbs);
+  display.addEventListener('click', () => show((current + 1) % originals.length));
+  display.after(thumbs);
+  show(0);
 });
 
 (() => {
