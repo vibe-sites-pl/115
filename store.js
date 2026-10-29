@@ -68,12 +68,12 @@ document.querySelectorAll('[data-order-form]').forEach((form) => {
     total.textContent = option?.value && validCount ? money.format(subtotal) : 'Select size and quantity';
     if (!form.checkValidity()) {
       ready.hidden = true;
-      email.href = 'mailto:115moto@115moto.com';
+      email.href = 'mailto:shop@cackogarage.com';
       summary.value = '';
       return false;
     }
     const body = [
-      'Hello 115moto,', '', 'Please confirm this order request:',
+      'Hello CACKO GARAGE,', '', 'Please confirm this order request:',
       `Model: ${form.dataset.product}`,
       `Size / inseam: ${option.dataset.size}`,
       `SKU: ${option.value}`,
@@ -87,7 +87,7 @@ document.querySelectorAll('[data-order-form]').forEach((form) => {
       ...(notes.value.trim() ? ['', `Notes: ${notes.value.trim()}`] : []),
     ].join('\n');
     summary.value = body;
-    email.href = `mailto:115moto@115moto.com?subject=${encodeURIComponent(`Order enquiry: ${form.dataset.product}`)}&body=${encodeURIComponent(body)}`;
+    email.href = `mailto:shop@cackogarage.com?subject=${encodeURIComponent(`Order enquiry: ${form.dataset.product}`)}&body=${encodeURIComponent(body)}`;
     return true;
   };
   form.addEventListener('input', () => {
@@ -105,7 +105,7 @@ document.querySelectorAll('[data-order-form]').forEach((form) => {
     if (!update()) return;
     try {
       await navigator.clipboard.writeText(summary.value);
-      status.textContent = 'Request copied. Paste it into your email and send it to 115moto@115moto.com.';
+      status.textContent = 'Request copied. Paste it into your email and send it to shop@cackogarage.com.';
     } catch {
       summary.focus();
       summary.select();
