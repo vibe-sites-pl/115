@@ -156,3 +156,33 @@ document.querySelectorAll('.product-gallery').forEach((gallery) => {
   });
   main.after(thumbs);
 });
+
+(() => {
+  const slides = [...document.querySelectorAll('.hero-slide')];
+  const previous = document.querySelector('[data-hero-prev]');
+  const next = document.querySelector('[data-hero-next]');
+  const pause = document.querySelector('[data-hero-pause]');
+  const count = document.querySelector('[data-hero-count]');
+  if (!slides.length || !previous || !next || !pause || !count) return;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let current = 0;
+  let paused = reducedMotion.matches;
+  let timer;
+  const show = index => {
+    slides[current].classList.remove('is-active');
+    current = (index + slides.length) % slides.length;
+    slides[current].classList.add('is-active');
+    count.textContent = `${current + 1} / ${slides.length}`;
+  };
+  const schedule = () => {
+    clearInterval(timer);
+    if (!paused) timer = setInterval(() => show(current + 1), 6000);
+    pause.textContent = paused ? 'Play' : 'Pause';
+    pause.setAttribute('aria-label', paused ? 'Play slideshow' : 'Pause slideshow');
+  };
+  previous.addEventListener('click', () => { show(current - 1); schedule(); });
+  next.addEventListener('click', () => { show(current + 1); schedule(); });
+  pause.addEventListener('click', () => { paused = !paused; schedule(); });
+  reducedMotion.addEventListener('change', event => { if (event.matches) { paused = true; schedule(); } });
+  schedule();
+})();

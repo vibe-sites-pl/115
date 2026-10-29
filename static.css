@@ -100,3 +100,18 @@ a,button,input,select,textarea,summary{touch-action:manipulation}
 @media(max-width:700px){.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.catalog-card-copy{padding:12px}.catalog-card-copy h2{font-size:17px}.catalog-tag{font-size:11px}.store-page{padding:28px 18px 48px}.catalog-tools{gap:12px}.catalog-tools label{width:100%}.catalog-tools label:first-child{min-width:0}.catalog-tools .store-button{width:100%}.order-panel{padding:16px}.order-actions{flex-direction:column}}
 @media(max-width:380px){.catalog-grid{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+
+.hero-slides,.hero-slide{position:absolute;inset:0;width:100%;height:100%}
+.hero-slide{object-fit:cover;opacity:0;transition:opacity 1s ease}
+.hero-slide.is-active{opacity:.8}
+.hero-controls{position:absolute;z-index:20;right:24px;bottom:24px;display:flex;align-items:center;gap:10px;color:#fff;font-size:14px}
+.hero-controls button{border:1px solid rgba(255,255,255,.8);background:rgba(0,0,0,.55);color:white;min-width:42px;min-height:42px;padding:0 10px;cursor:pointer}
+.hero-controls button:hover{background:#fff;color:#111}
+.hero-controls span{min-width:42px;text-align:center;text-shadow:0 1px 4px #000}
+.home-bestsellers{padding-top:64px;padding-bottom:32px}
+.home-bestsellers-heading{display:flex;align-items:baseline;justify-content:space-between;gap:20px}
+.home-bestsellers-heading h2{font-family:var(--font-barlow-condensed),sans-serif;font-size:clamp(32px,4vw,48px);font-weight:800;text-transform:uppercase}
+.home-bestsellers-heading a{text-decoration:underline;text-underline-offset:4px}
+.home-bestsellers-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin-top:24px;list-style:none;padding:0}
+@media(max-width:700px){.home-bestsellers{padding-top:40px}.home-bestsellers-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.hero-controls{right:16px;bottom:12px}.hero-controls button{min-width:38px;min-height:38px}.hero-controls span{min-width:35px}}
+@media(prefers-reduced-motion:reduce){.hero-slide{transition:none}}
